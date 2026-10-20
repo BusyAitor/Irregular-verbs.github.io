@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Irregular Verbs</title>
+<style>
+:root{--bg:#fafaf8;--fg:#1c1c1a;--mut:#8a8a85;--line:#e4e4df;--acc:#2f6f5e;--ok:#2f8f5e;--bad:#c0463b;--card:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#ececE8;--mut:#8d8d87;--line:#2a2a27;--acc:#6fc0a8;--ok:#5fcf97;--bad:#ef7d72;--card:#1b1b19}}
+:root[data-theme="dark"]{--bg:#141413;--fg:#ececE8;--mut:#8d8d87;--line:#2a2a27;--acc:#6fc0a8;--ok:#5fcf97;--bad:#ef7d72;--card:#1b1b19}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:560px;margin:0 auto;padding:28px 20px 48px}
+h1{font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em}
+.sub{color:var(--mut);font-size:13px;margin:2px 0 22px}
+nav{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:24px}
+nav button{background:none;border:0;color:var(--mut);font:inherit;padding:8px 12px;white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+nav button.on{color:var(--fg);border-color:var(--acc)}
+.bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--mut);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 22px;margin-top:20px}
+.inf{font-size:34px;font-weight:600;text-align:center;letter-spacing:-.02em;margin:0 0 4px}
+.lbl{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-align:center;margin-bottom:22px}
+.f{margin-bottom:14px}
+.f label{display:block;font-size:12px;color:var(--mut);margin-bottom:4px}
+input[type=text]{width:100%;font:inherit;font-size:18px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);outline:none}
+input[type=text]:focus{border-color:var(--acc)}
+input.ok{border-color:var(--ok)}input.bad{border-color:var(--bad)}
+.ans{font-size:13px;color:var(--bad);margin-top:4px;min-height:1em}
+.row{display:flex;gap:8px;margin-top:18px}
+.btn{flex:1;font:inherit;padding:11px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--fg);cursor:pointer}
+.btn.p{background:var(--acc);border-color:var(--acc);color:var(--bg);font-weight:600}
+.btn:hover{opacity:.85}
+.msg{text-align:center;margin-top:16px;font-weight:600;min-height:1.4em}
+.done{text-align:center;padding:30px 0}
+.done h2{font-size:22px;margin:0 0 8px}
+.tools{display:flex;gap:8px;margin-bottom:12px}
+.tools input{flex:1}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);text-align:left;font-weight:500;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+tr.k td:first-child{color:var(--mut)}
+tr{cursor:pointer}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;border:1px solid var(--mut);margin-right:8px}
+tr.k .dot{background:var(--ok);border-color:var(--ok)}
+.hint{color:var(--mut);font-size:12px;margin:10px 0 0}
+footer{text-align:center;color:var(--mut);font-size:12px;margin-top:40px}
+td.n{color:var(--bad);text-align:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<h1>Irregular Verbs</h1>
+<p class="sub">Practica, corrige y quita los que ya te sabes.</p>
+<nav><button id="tq" class="on">Quiz</button><button id="th">Difíciles</button><button id="ta">Repaso</button><button id="tl">Lista</button></nav>
+
+<section id="vq">
+  <div class="meta"><span id="pt">0 / 0 sabidos</span><span id="left"></span></div>
+  <div class="bar"><i id="pb"></i></div>
+  <div id="qa" class="card">
+    <p class="inf" id="inf"></p>
+    <div class="lbl">Infinitive</div>
+    <div class="f"><label for="a1">Simple Past</label><input type="text" id="a1" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="ans" id="r1"></div></div>
+    <div class="f"><label for="a2">Past Participle</label><input type="text" id="a2" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="ans" id="r2"></div></div>
+    <div class="msg" id="msg"></div>
+    <div class="row"><button class="btn" id="sk">No lo sé</button><button class="btn p" id="go">Comprobar</button></div>
+  </div>
+  <div id="dn" class="card done" hidden>
+    <h2 id="dh">¡Lista completada!</h2>
+    <p class="sub" id="ds">Te sabes todos los verbos.</p>
+    <div class="row"><button class="btn p" id="rs">Empezar de nuevo</button></div>
+  </div>
+  <p class="hint" id="rk"></p>
+  <p class="hint" id="hn"></p>
+</section>
+
+<section id="vl" hidden>
+  <div class="tools"><input type="text" id="q" placeholder="Buscar verbo…"><button class="btn" id="rs2" style="flex:none;padding:10px 14px">Reiniciar</button></div>
+  <div class="tw"><table><thead><tr><th>Infinitive</th><th>Simple Past</th><th>Past Participle</th><th>Fallos</th></tr></thead><tbody id="tb"></tbody></table></div>
+  <p class="hint">Toca un verbo para marcarlo como sabido o pendiente.</p>
+</section>
+
+<footer>Creado por Aitor Cuevas</footer>
+</main>
+<script>
+const D="arise,arose,arisen;be,was/were,been;beat,beat,beaten;become,became,become;begin,began,begun;bet,bet/betted,bet/betted;bite,bit,bitten;bleed,bled,bled;blow,blew,blown;break,broke,broken;bring,brought,brought;build,built,built;buy,bought,bought;catch,caught,caught;choose,chose,chosen;come,came,come;cost,cost,cost;creep,crept,crept;cut,cut,cut;deal,dealt,dealt;do,did,done;draw,drew,drawn;dream,dreamt/dreamed,dreamt/dreamed;drink,drank,drunk;drive,drove,driven;eat,ate,eaten;fall,fell,fallen;feed,fed,fed;feel,felt,felt;fight,fought,fought;find,found,found;flee,fled,fled;fly,flew,flown;forget,forgot,forgotten;forgive,forgave,forgiven;forsake,forsook,forsaken;freeze,froze,frozen;get,got,got;give,gave,given;go,went,gone;grind,ground,ground;grow,grew,grown;hang,hung,hung;have,had,had;hear,heard,heard;hide,hid,hidden;hit,hit,hit;hold,held,held;hurt,hurt,hurt;keep,kept,kept;kneel,knelt,knelt;know,knew,known;lead,led,led;learn,learnt/learned,learnt/learned;leave,left,left;lend,lent,lent;let,let,let;lie,lay,lain;lose,lost,lost;make,made,made;mean,meant,meant;meet,met,met;pay,paid,paid;put,put,put;quit,quit/quitted,quit/quitted;read,read,read;ride,rode,ridden;ring,rang,rung;rise,rose,risen;run,ran,run;say,said,said;see,saw,seen;sell,sold,sold;send,sent,sent;set,set,set;sew,sewed,sewn/sewed;shake,shook,shaken;shine,shone,shone;shoot,shot,shot;show,showed,shown/showed;shrink,shrank/shrunk,shrunk;shut,shut,shut;sing,sang,sung;sink,sank,sunk;sit,sat,sat;sleep,slept,slept;slide,slid,slid;sow,sowed,sown/sowed;speak,spoke,spoken;spell,spelt/spelled,spelt/spelled;spend,spent,spent;spill,spilt/spilled,spilt/spilled;split,split,split;spoil,spoilt/spoiled,spoilt/spoiled;spread,spread,spread;stand,stood,stood;steal,stole,stolen;sting,stung,stung;stink,stank/stunk,stunk;strike,struck,struck;swear,swore,sworn;sweep,swept,swept;swim,swam,swum;take,took,taken;teach,taught,taught;tear,tore,torn;tell,told,told;think,thought,thought;throw,threw,thrown;tread,trode,trodden/trod;understand,understood,understood;wake,woke,woken;wear,wore,worn;weave,wove,woven;weep,wept,wept;win,won,won;wring,wrung,wrung;write,wrote,written".split(";").map(s=>{const[i,p,pp]=s.split(",");return{i,p,pp}});
+const $=id=>document.getElementById(id);
+let known=new Set(),queue=[],cur=null,checked=false,mode="pending",tot=0,streak=0,fails={};
+try{known=new Set(JSON.parse(localStorage.getItem("iv-known")||"[]"))}catch(e){}
+try{fails=JSON.parse(localStorage.getItem("iv-fails")||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem("iv-known",JSON.stringify([...known]));localStorage.setItem("iv-fails",JSON.stringify(fails))}catch(e){}};
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g,"");
+const ok=(v,c)=>{v=norm(v);return !!v&&(v===norm(c)||c.split("/").map(norm).includes(v))};
+function build(){
+  if(mode==="hard")queue=shuffle(D.filter(v=>fails[v.i]>0)).sort((a,b)=>fails[b.i]-fails[a.i]);
+  else if(mode==="all")queue=shuffle(D.slice());
+  else queue=shuffle(D.filter(v=>!known.has(v.i)));
+  tot=queue.length;
+}
+function prog(){
+  const n=known.size;
+  if(mode==="pending"){$("pt").textContent=n+" / "+D.length+" sabidos";$("pb").style.width=(n/D.length*100)+"%"}
+  else{const d=tot-queue.length;$("pt").textContent=d+" / "+tot+" repasados";$("pb").style.width=(tot?d/tot*100:0)+"%"}
+  $("left").textContent=(queue.length?queue.length+" por hacer":"")+(streak>1?" · racha "+streak:"");
+  const top=D.filter(v=>fails[v.i]>0).sort((a,b)=>fails[b.i]-fails[a.i]).slice(0,6);
+  $("rk").textContent=mode==="hard"&&top.length?"Más fallados: "+top.map(v=>v.i+" ("+fails[v.i]+")").join(", "):"";
+}
+function next(){
+  prog();checked=false;
+  if(!queue.length){$("qa").hidden=true;$("dn").hidden=false;
+    const E={pending:["¡Lista completada!","Te sabes todos los verbos.","Empezar de nuevo"],hard:["Sin verbos difíciles","Aquí aparecerán los que falles. ¡Sigue practicando!","Volver"],all:["¡Repaso completado!","Has acertado todos los verbos.","Repasar otra vez"]}[mode];
+    $("dh").textContent=E[0];$("ds").textContent=E[1];$("rs").textContent=E[2];$("rs").hidden=mode==="hard";return}
+  $("dn").hidden=true;$("qa").hidden=false;
+  cur=queue[0];$("inf").textContent=cur.i;
+  for(const k of ["1","2"]){const e=$("a"+k);e.value="";e.className="";e.readOnly=false;$("r"+k).textContent=""}
+  $("msg").textContent="";$("go").textContent="Comprobar";$("sk").hidden=false;$("a1").focus();
+}
+function check(giveUp){
+  if(!cur)return;
+  if(checked){next();return}
+  const r1=!giveUp&&ok($("a1").value,cur.p),r2=!giveUp&&ok($("a2").value,cur.pp);
+  $("a1").className=r1?"ok":"bad";$("a2").className=r2?"ok":"bad";
+  if(!r1)$("r1").textContent=cur.p.replace("/"," / ");
+  if(!r2)$("r2").textContent=cur.pp.replace("/"," / ");
+  $("a1").readOnly=$("a2").readOnly=true;
+  const m=$("msg");
+  if(r1&&r2){m.textContent="Correcto";m.style.color="var(--ok)";streak++;if(mode!=="hard")known.add(cur.i);else if(--fails[cur.i]<=0)delete fails[cur.i];queue.shift();save()}
+  else{m.textContent=giveUp?"Apréndetelo y lo repetimos":"Repasa este otra vez";m.style.color="var(--bad)";streak=0;fails[cur.i]=(fails[cur.i]||0)+1;known.delete(cur.i);queue.push(queue.shift());save()}
+  checked=true;$("go").textContent="Siguiente";$("sk").hidden=true;prog();$("go").focus();
+}
+function list(){
+  const f=$("q").value.trim().toLowerCase();
+  $("tb").innerHTML=D.filter(v=>!f||v.i.includes(f)||v.p.includes(f)||v.pp.includes(f)).map(v=>
+    `<tr data-i="${v.i}" class="${known.has(v.i)?"k":""}"><td><span class="dot"></span>${v.i}</td><td>${v.p.replace("/"," / ")}</td><td>${v.pp.replace("/"," / ")}</td><td class="n">${fails[v.i]||""}</td></tr>`).join("");
+}
+function reset(){if(confirm("¿Reiniciar progreso y fallos?")){known.clear();fails={};streak=0;save();build();next();list()}}
+const HN={pending:"Si hay varias formas válidas (dreamt/dreamed), basta con una. Acertar lo quita del repaso; fallar lo repite.",hard:"Tus verbos más fallados primero. Cada acierto baja su contador; al llegar a 0 salen de aquí.",all:"Repaso libre de todos los verbos, sepas o no. Un fallo lo devuelve a pendientes."};
+function tab(m){mode=m;const q=m!=="list";$("vq").hidden=!q;$("vl").hidden=q;
+  for(const [id,k] of [["tq","pending"],["th","hard"],["ta","all"],["tl","list"]])$(id).className=k===m?"on":"";
+  if(q){$("hn").textContent=HN[m];build();next()}else list()}
+$("tq").onclick=()=>tab("pending");$("th").onclick=()=>tab("hard");$("ta").onclick=()=>tab("all");$("tl").onclick=()=>tab("list");$("sk").onclick=()=>{if(!checked)check(true)};
+$("go").onclick=check;$("rs").onclick=()=>{if(mode==="pending"){known.clear();save()}build();next()};$("rs2").onclick=reset;
+$("q").oninput=list;
+$("tb").onclick=e=>{const r=e.target.closest("tr");if(!r)return;const i=r.dataset.i;known.has(i)?known.delete(i):known.add(i);save();list()};
+document.addEventListener("keydown",e=>{if(e.key!=="Enter"||$("vq").hidden||$("qa").hidden)return;
+  if(e.target.id==="a1"&&!checked){e.preventDefault();$("a2").focus()}else{e.preventDefault();check()}});
+$("hn").textContent=HN.pending;build();next();
+</script>
+</body>
+</html>
